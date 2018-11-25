@@ -1,0 +1,61 @@
+version: '1.0'
+
+services:
+  php:
+    image: ${CONTAINER_REGISTRY_BASE}/php
+    build:
+      context: ./api
+      cache_from:
+        - ${CONTAINER_REGISTRY_BASE}/php
+    depends_on:
+      - db
+    env_file:
+      - ./api/.env
+    # Comment out these volumes in production
+    volumes:
+      - ./api:/srv/api:rw,cached
+      # If you develop on Linux, uncomment the following line to use a bind-mounted host directory instead
+      # - ./api/var:/srv/api/var:rw
+
+  api:
+    image: ${CONTAINER_REGISTRY_BASE}/nginx
+    build:
+      context: ./api
+      dockerfile: Dockerfile.nginx
+      cache_from:
+        - ${CONTAINER_REGISTRY_BASE}/nginx
+    depends_on:
+      - php
+    volumes:
+      - ./api/public:/srv/api/public:ro
+    ports:
+      - "8080:80"
+  db:
+    # In production, you may want to use a managed database service
+    image: postgres:9.6-alpine
+    environment:
+      - POSTGRES_DB=api
+      - POSTGRES_USER=admin
+      # You should definitely change the password in production
+      - POSTGRES_PASSWORD=!ChangeMe!
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+    ports:
+      - "5432:5432"
+  client:
+    image: ${CONTAINER_REGISTRY_BASE}/client
+    build: 
+        context: ./client
+        cache_from: 
+          - ${CONTAINER_REGISTRY_BASE}/client
+    ports:
+        - "80:3000"
+        #- "49153:49153"
+    volumes:
+        #- ./client:/usr/src/client:rw,cached
+        - /usr/src/client/node_modules
+    #command: npm start
+volumes:
+  db-data: {}

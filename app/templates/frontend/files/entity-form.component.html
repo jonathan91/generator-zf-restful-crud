@@ -1,0 +1,29 @@
+
+<div class="ui-g ui-fluid">
+  <div class="ui-g-12">
+    <div class="card card-w-title">
+      <h1>{{ <%=_.snakeCase(className).toLowerCase()%>.id ? 'Editar <%=className%>' : 'Cadastrar <%=className%>' }}</h1>
+      <form materialize class="col s12" [formGroup]="form" (ngSubmit)="save()">
+        <div class="ui-g form-group">
+          <input type="hidden" name="id" pInputText [(ngModel)]="entity.id" readonly/>
+          <div class="ui-g-12 ui-md-6">
+            <% attributs.fields.forEach(function(element){ %>
+            <span class="md-inputfield">
+              <input type="text" name="<%= element.fieldName %>" [(ngModel)]="entity.<%= element.fieldName %>" pInputText/>
+              <label><%= element.fieldName %></label>
+            </span>
+            <% }); %>
+          </div>
+        </div>
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-2">
+            <button pButton type="button" label="Cancelar" routerLink="/<%=_.replace(_.snakeCase(className),"_","-").toLowerCase()%>"></button>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <button pButton type="submit" label="Salvar" [disabled]="editForm.form.invalid || isSaving" ></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
