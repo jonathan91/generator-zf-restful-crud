@@ -518,7 +518,7 @@ module.exports = class extends Generator {
     {
         this.writeFile(
             'backend/files/Module.php',
-            'module/src/' + values[0] + '/Module.php',
+            'module/' + values[0] + '/src/Module.php',
             values[0],
             values[1],
             {}
@@ -545,7 +545,7 @@ module.exports = class extends Generator {
             file: 'modules.config.php',
             needle: 'module-name-mapper',
             splicable: [
-            `'${values[1]}',`
+            `'${values[0]}',`
             ]
         },this);
         
@@ -554,7 +554,16 @@ module.exports = class extends Generator {
             file: 'doctrine_orm.global.php',
             needle: 'entity-name-mapper',
             splicable: [
-                `getcwd() . "/module/${values[0]}/src/${values[1]}/Entity",`
+                `getcwd() . "/module/${values[0]}/src/Entity",`
+            ]
+        },this);
+
+        util.rewriteFile({
+            path: '.',
+            file: 'composer.json',
+            needle: `"Application\\": "module/Application/src/"`,
+            splicable: [
+                `"${values[0]}\\": "module/${values[0]}/src/",`
             ]
         },this);
 
