@@ -4,35 +4,30 @@ namespace <%= packageName %>\Controller;
 use <%= packageName %>\Entity\<%= className %>;
 use Zend\View\Model\JsonModel;
 use Application\Controller\AppAbstractController;
-use Application\Http\ResponseBag;
+use Application\Http\AppHttpResponse;
 
 class <%= className %>Controller extends AppAbstractController
 {
 
-    protected function service()
-    {
-        return $this->getServiceLocator()->get('<%= packageName %>\<%= className %>Service');
-    }
-
     public function getList()
     {
-    	$entities = $this->service()->search();
-    	$response = new ResponseBag($entities);
+    	$entities = $this->getServiceManager()->search();
+    	$response = new AppHttpResponse($entities);
     	return new JsonModel($response->getData());
     }
 
     public function get($id)
     {
-    	$entity = $this->service()->find($id);
-    	$response = new ResponseBag($entity);
+    	$entity = $this->getServiceManager()->find($id);
+    	$response = new AppHttpResponse($entity);
     	return new JsonModel($response->getData());
     }
 
     public function create($request)
     {
     	$entity = new <%= className %>($request);
-    	$entity = $this->service()->add($entity);
-    	$response = new ResponseBag($entity);
+    	$entity = $this->getServiceManager()->add($entity);
+    	$response = new AppHttpResponse($entity);
     	return new JsonModel($response->getData());
     }
 
@@ -40,14 +35,14 @@ class <%= className %>Controller extends AppAbstractController
     {
     	$entity = new <%= className %>($request);
     	$entity->setId($id);
-    	$entity = $this->service()->edit($entity);
-    	$response = new ResponseBag($entity);
+    	$entity = $this->getServiceManager()->edit($entity);
+    	$response = new AppHttpResponse($entity);
     	return new JsonModel($response->getData());
     }
 
     public function delete($id)
     {
-    	$this->service()->delete($id);
+    	$this->getServiceManager()->delete($id);
     	return new JsonModel(['data' => "Record with id {$id} was deleted"]);
     }
 }

@@ -32,7 +32,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Application\\": "module/Application/src/"
+            "Application\\": "module/Application/src/",
+            "_comment\\": "# new-module-mapper"
         }
     },
     "autoload-dev": {

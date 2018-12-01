@@ -7,7 +7,7 @@ use Application\Repository\AppRepositoryInterface;
 class <%= className %>Repository  extends EntityRepository implements AppRepositoryInterface
 {
 
-    public function search($params = [])
+    public function search(array $params = [])
     {
 		$offset = $params['page']==0 ? 0 : ($params['size']*$params['page']);
 		$order  = $params['order'];

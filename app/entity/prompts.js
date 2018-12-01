@@ -333,8 +333,8 @@ module.exports = class extends Generator {
                     var values = ''; 
                     itensFields.forEach(element => {
                         values = element.entity.split('.')
-                        this.writeBackendFile(element);
-                        this.writeFrontendFile(element);
+                        this.writeBackendFiles(element);
+                        this.writeFrontendFiles(element);
                     });
                     this.writeFileService(values[0]);
                 }else{
@@ -386,15 +386,16 @@ module.exports = class extends Generator {
                 this.log('Creating zend files...');
                 itensFields.forEach(element => {
                     values = element.entity.split('.');
-                    this.writeBackendFile(element);
-                    this.writeFrontendFile(element);
+                    this.writeBackendFiles(element);
+                    this.writeFrontendFiles(element);
                 });
                 this.writeConfigService(values);
+                this.log('After execution do you have execute composer dump-autoload to update your modules');
             }
         });
     }
 
-    writeBackendFile(props) 
+    writeBackendFiles(props) 
     {
         var values = props.entity.split('.');
         this.writeFile(
@@ -425,9 +426,23 @@ module.exports = class extends Generator {
             values[1],
             props
         );
+        this.writeFile(
+            'backend/files/ControllerFactory.php',
+            'module/' + values[0]+'/src/Controller/Factory/'+values[1]+'ControllerFactory.php',
+            values[0],
+            values[1],
+            props
+        );
+        this.writeFile(
+            'backend/files/ServiceFactory.php',
+            'module/' + values[0]+'/src/Service/Factory/'+values[1]+'ServiceFactory.php',
+            values[0],
+            values[1],
+            props
+        );
     }
     
-    writeFrontendFile(props) 
+    writeFrontendFiles(props) 
     {
         var values = props.entity.split('.');
         
@@ -559,15 +574,6 @@ module.exports = class extends Generator {
         },this);
 
         util.rewriteFile({
-            path: '.',
-            file: 'composer.json',
-            needle: `"Application\\": "module/Application/src/"`,
-            splicable: [
-                `"${values[0]}\\": "module/${values[0]}/src/",`
-            ]
-        },this);
-
-        util.rewriteFile({
             path: 'client/src/app',
             file: 'app.module.ts',
             needle: 'app-module-import-mapper',
@@ -593,6 +599,20 @@ module.exports = class extends Generator {
             `'${values[1]}\\Entity' => 'annotation_driver',`
             ]
         },this);
+
+        util.rewriteFile({
+            path: '.',
+            file: 'composer.json',
+            needle: `new-module-mapper`,
+            splicable: [
+                `"${values[0]+'\\'}\\": "module/${values[0]}/src/",`
+            ]
+        },this);
+
+        /* this.spawnCommandSync(
+            'composer',
+            ['dump-autoload']
+        ); */
     }
 
     writeFile(origin, destination, bundle, entity, props) 

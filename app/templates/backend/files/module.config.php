@@ -1,6 +1,9 @@
 <?php
 namespace <%= packageName %>;
 
+
+use <%= packageName %>\Controller\<%= className %>Controller;
+
 return [
     'router' => [
         'routes' => [
@@ -13,7 +16,7 @@ return [
                         'id'     => '[0-9]+',
                     ],
                     'defaults' => [
-                        'controller' => '<%= className %>\Controller\<%= className %>',
+                        'controller' => <%= className %>::class,
                     ],
                 ],
             ],
@@ -22,27 +25,13 @@ return [
                 'options' => [
                     'route'    => '/<%=_.replace(_.snakeCase(className),"_","-").toLowerCase()%>',
                     'defaults' => [
-                        'controller' => '<%= className %>\Controller\<%= className %>',
+                        'controller' => <%= className %>::class,
                     ],
                 ],
             ],
         ],
     ],
-    'service_manager' => [
-        'abstract_factories' => [
-            'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
-            'Zend\Log\LoggerAbstractServiceFactory',
-        ],
-        'factories' => [
-            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
-        ],
-    ],
-    'controllers' => [
-        'invokables' => [
-            '<%= className %>\Controller\<%= className %>' => Controller\<%= className %>Controller::class
-        ],
-    ],
-	'view_manager' => [
+    'view_manager' => [
 		'strategies' => [
 			'ViewJsonStrategy',
 		],
