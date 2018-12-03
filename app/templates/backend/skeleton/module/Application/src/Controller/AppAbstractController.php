@@ -12,7 +12,8 @@ abstract class AppAbstractController extends AbstractRestfulController
     		$this->entityManager = $entityManager;
   	}
 	
-	public function getServiceManager(){
+	public function getServiceManager()
+	{
 		return $this->entityManager;
 	}
 }
