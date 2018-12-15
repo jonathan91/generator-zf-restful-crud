@@ -9,7 +9,7 @@ use Zend\Form\Annotation;
  * @ORM\Entity
  * @ORM\Table(name="<%= _.snakeCase(className).toLowerCase()%>")
  * @ORM\Entity(repositoryClass="\<%= packageName %>\Repository\<%= className %>Repository")
- * @Annotation\Hydrator("Zend\Stdlib\Hydrator\ObjectProperty")
+ * @Annotation\Hydrator("Zend\Hydrator\ObjectProperty")
  * @Annotation\Name("<%= className %>")
  */
 class <%= className %> extends AppAbstractEntity
