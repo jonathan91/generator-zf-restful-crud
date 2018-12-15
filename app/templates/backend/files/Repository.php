@@ -2,9 +2,9 @@
 namespace <%= packageName %>\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Application\Repository\AppRepositoryInterface;
+use Application\Repository\AppInterfaceRepository;
 
-class <%= className %>Repository  extends EntityRepository implements AppRepositoryInterface
+class <%= className %>Repository  extends EntityRepository implements AppInterfaceRepository
 {
 
     public function search(array $params = [])

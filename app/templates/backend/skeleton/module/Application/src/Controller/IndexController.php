@@ -14,11 +14,6 @@ use Zend\View\Model\JsonModel;
 class IndexController extends AppAbstractController
 {
 
-    protected function service()
-    {
-        return $this->getServiceLocator()->get('Application\ApplicationService');
-    }
-
     public function indexAction()
     {
         return new JsonModel();

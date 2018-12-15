@@ -10,7 +10,7 @@ return [
             'orm_default' => [
                 'driverClass' => Driver::class,
                 'params' => [
-                    'host'     => '<%=props.dbHost%>',
+                    'host'     => 'db',
                     'port'     => '<%=props.dbPort%>',
                     'user'     => '<%=props.dbUser%>',
                     'password' => '<%=props.dbPassword%>',

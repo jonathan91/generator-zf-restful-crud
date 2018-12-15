@@ -49,9 +49,9 @@ final class AppHttpResponse
 	public function setData($data)
 	{
 		if(is_array($data)){
-			$this->data['data'] = $this->asArray($data);
+			$this->data['data'] = empty($data) ? null : $this->asArray($data);
 		}else{
-			$this->data['data'] = $data->toArray();
+			$this->data['data'] = empty($data) ? null : $data->toArray();
 		}
 	}
 

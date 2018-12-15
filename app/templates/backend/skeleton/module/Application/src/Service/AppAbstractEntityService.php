@@ -13,22 +13,14 @@ abstract class AppAbstractEntityService
      * @var EntityManager
      */
     protected $ormEntityManager;
-    /**
-     * 
-     * @var ServiceManager
-     */
-    protected $serviceManager;
     
-    public function __construct(ServiceManager $serviceManager)
+    public function __construct(EntityManager $ormEntityManager)
     {
-        $this->serviceManager = $serviceManager;
+        $this->ormEntityManager = $ormEntityManager;
     }
     
     public function getOrmEntityManager()
     {
-        if (null === $this->ormEntityManager) {
-            $this->ormEntityManager = $this->serviceManager->get(EntityManager::class);
-        }
         return $this->ormEntityManager;
     }
     

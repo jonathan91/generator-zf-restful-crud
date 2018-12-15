@@ -1,6 +1,6 @@
 version: '3.1'
 services:
-  app-zf3:
+  app:
     image: php:7.1-apache
     build: .
     ports:
@@ -8,15 +8,15 @@ services:
     volumes:
       - .:/var/www
     restart: always
-  app-postgres:
-    image: postgres:9.6
+  db:
+    image: oracle
     environment:
-      POSTGRES_PASSWORD: postgres
-    ports:
-       - 5433:5432
-    volumes:
-      - /var/lib/postgresql
+      #MYSQL_ROOT_PASSWORD: mysql
     restart: always
+    ports:
+      - 1521:1521
+    volumes:
+      - /opt/oracle/oradata
 networks:
   default:
     driver: bridge

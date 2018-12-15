@@ -321,7 +321,8 @@ module.exports = class extends Generator {
                     entity: answers.bundleName+'.'+answers.className,
                     fields: []
                 };
-                this.askForField.call(this);            }else{  
+                this.askForField.call(this);            
+            }else{  
                 var store = memFs.create();
                 var fsr = editor.create(store);
                 var listFiles = fs.readdirSync(answers.pathName);
@@ -531,6 +532,7 @@ module.exports = class extends Generator {
 
     writeConfigService(values) 
     {
+
         this.writeFile(
             'backend/files/Module.php',
             'module/' + values[0] + '/src/Module.php',
@@ -542,14 +544,6 @@ module.exports = class extends Generator {
         this.writeFile(
             'backend/files/module.config.php',
             'module/' + values[0] + '/config/module.config.php',
-            values[0],
-            values[1],
-            {}
-        );
-
-        this.writeFile(
-            'backend/files/service.config.php',
-            'module/' + values[0] + '/config/service.config.php',
             values[0],
             values[1],
             {}
@@ -596,7 +590,7 @@ module.exports = class extends Generator {
             file: 'doctrine_orm.global.php',
             needle: 'namespace-name-mapper',
             splicable: [
-            `'${values[1]}\\Entity' => 'annotation_driver',`
+            `'${values[0]}\\Entity\\${values[1]}' => 'annotation_driver',`
             ]
         },this);
 

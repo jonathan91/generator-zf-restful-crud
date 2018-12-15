@@ -49,15 +49,16 @@ class GeneratorSymfony extends EntityPrompt {
             },{
                 name: 'Oracle',
                 value: 'PDOOracle'
-            },{
+            }/* ,{
                 name: 'MS SQL',
                 value: 'PDOSqlsrv'
-            }]
-        },{
+            } */
+            ]
+        }/* ,{
             type: 'input',
             name: 'dbHost',
             message: 'What is database Host: ',
-        },{
+        } */,{
             type: 'input',
             name: 'dbPort',
             message: 'What is database Port: ',
@@ -68,19 +69,41 @@ class GeneratorSymfony extends EntityPrompt {
                     return '5432';
                 }else if(response.dbType === 'PDOOracle'){
                     return '1521';
-                }else if(response.dbType === 'PDOSqlsrv'){
+                }/* else if(response.dbType === 'PDOSqlsrv'){
                     return '1433';
-                }
+                } */
                 return '';
             }
         },{
             type: 'input',
             name: 'dbName',
             message: 'What is database Name: ',
+            default: function(response){
+                if(response.dbType === 'PDOMySql'){
+                    return 'mysql';
+                }else if(response.dbType === 'PDOPgSql'){
+                    return 'postgres';
+                }else if(response.dbType === 'PDOOracle'){
+                    return 'oracle';
+                }/* else if(response.dbType === 'PDOSqlsrv'){
+                    return '1433';
+                } */
+            }
         },{
             type: 'input',
             name: 'dbUser',
             message: 'What is database User: ',
+            default: function(response){
+                if(response.dbType === 'PDOMySql'){
+                    return 'root';
+                }else if(response.dbType === 'PDOPgSql'){
+                    return 'postgres';
+                }else if(response.dbType === 'PDOOracle'){
+                    return 'oracle';
+                }/* else if(response.dbType === 'PDOSqlsrv'){
+                    return '1433';
+                } */
+            }
         },{
             type: 'password',
             name: 'dbPassword',
@@ -97,6 +120,17 @@ class GeneratorSymfony extends EntityPrompt {
     {
         var fs = require('fs');
         if (!fs.existsSync(props.appName)) {
+            //docker-compose
+            if(props.dbType === 'PDOMySql'){
+                this.writeFileSkeleton('backend/files/mysql/docker-compose.yml', props.appName+'/docker-compose.yml', {props: props});
+                this.writeFileSkeleton('backend/files/oracle/Dockerfile', props.appName+'/Dockerfile', {props: props});
+            }else if(props.dbType === 'PDOPgSql'){
+                this.writeFileSkeleton('backend/files/postgres/docker-compose.yml', props.appName+'/docker-compose.yml', {props: props});
+                this.writeFileSkeleton('backend/files/postgres/Dockerfile', props.appName+'/Dockerfile', {props: props});
+            }else {
+                this.writeFileSkeleton('backend/files/oracle/docker-compose.yml', props.appName+'/docker-compose.yml', {props: props});
+                this.writeFileSkeleton('backend/files/oracle/Dockerfile', props.appName+'/Dockerfile', {props: props});
+            }
             this.writeFileSkeleton('backend/skeleton', props.appName, {props: props});
             this.writeFileSkeleton('backend/skeleton/config/autoload/doctrine_orm.global.php', 
             props.appName+'/config/autoload/doctrine_orm.global.php', {props: props});
