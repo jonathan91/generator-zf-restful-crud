@@ -20,7 +20,6 @@ return [
                     ],
                     'defaults' => [
                         'controller' => <%= className %>Controller::class,
-                        'action'=>'get'
                     ],
                 ],
             ],
@@ -33,7 +32,6 @@ return [
                     ],
                     'defaults' => [
                         'controller' => <%= className %>Controller::class,
-                        'action'=>'get'
                     ],
                 ],
             ],
@@ -46,7 +44,6 @@ return [
                     ],
                     'defaults' => [
                         'controller' => <%= className %>Controller::class,
-                        'action'=>'get'
                     ],
                 ],
             ],
@@ -56,7 +53,6 @@ return [
                     'route'    => '/<%=_.replace(_.snakeCase(className),"_","-").toLowerCase()%>/create',
                     'defaults' => [
                         'controller' => <%= className %>Controller::class,
-                        'action'=>'list'
                     ],
                 ],
             ],
@@ -66,7 +62,6 @@ return [
                     'route'    => '/<%=_.replace(_.snakeCase(className),"_","-").toLowerCase()%>',
                     'defaults' => [
                         'controller' => <%= className %>Controller::class,
-                        'action'=>'list'
                     ],
                 ],
             ],
