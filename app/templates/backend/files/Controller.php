@@ -9,45 +9,20 @@ use Application\Http\AppHttpResponse;
 class <%= className %>Controller extends AppAbstractController
 {
 
-    public function listAction()
+    public function create($request)
     {
-    	$entities = $this->getServiceManager()->search();
-    	$response = new AppHttpResponse($entities);
-    	return new JsonModel($response->getData());
-    }
-
-    public function getAction()
-    {
-		$id = $this->params()->fromRoute('id');
-    	$entity = $this->getServiceManager()->find($id);
-    	$response = new AppHttpResponse($entity);
-    	return new JsonModel($response->getData());
-    }
-
-    public function createAction()
-    {
-		$request   = $this->getRequest();
-    	$entity = new <%= className %>($request->getPost());
+		$entity = new <%= className %>($request);
     	$entity = $this->getServiceManager()->add($entity);
     	$response = new AppHttpResponse($entity);
     	return new JsonModel($response->getData());
     }
 
-    public function updateAction()
+    public function update($id, $request)
     {
-		$id = $this->params()->fromRoute('id');
-		$request   = $this->getRequest();
-    	$entity = new <%= className %>($request->getPost());
+		$entity = new <%= className %>($request);
     	$entity->setId($id);
     	$entity = $this->getServiceManager()->edit($entity);
     	$response = new AppHttpResponse($entity);
     	return new JsonModel($response->getData());
-    }
-
-    public function deleteAction()
-    {
-		$id = $this->params()->fromRoute('id');
-    	$this->getServiceManager()->delete($id);
-    	return new JsonModel(['data' => "Record with id {$id} was deleted"]);
     }
 }

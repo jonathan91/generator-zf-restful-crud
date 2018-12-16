@@ -34,4 +34,24 @@ abstract class AppAbstractController extends AbstractRestfulController
 		$config = $event->getApplication()->getServiceManager()->get('Config');
 		//require security module to validate jwt
 	}
+
+	public function getList()
+	{
+	    $entities = $this->getServiceManager()->search();
+	    $response = new AppHttpResponse($entities);
+	    return new JsonModel($response->getData());
+	}
+	
+	public function get($id)
+	{
+	    $entity = $this->getServiceManager()->find($id);
+	    $response = new AppHttpResponse($entity);
+	    return new JsonModel($response->getData());
+	}
+	
+	public function delete($id)
+	{
+	    $this->getServiceManager()->delete($id);
+	    return new JsonModel(['data' => "Record with id {$id} was deleted"]);
+	}
 }
