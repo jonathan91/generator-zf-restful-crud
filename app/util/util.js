@@ -37,8 +37,10 @@ function rewrite(args) {
     });
 
     let spaces = 0;
-    while (lines[otherwiseLineIndex].charAt(spaces) === ' ') {
-        spaces += 1;
+    if (lines[otherwiseLineIndex] !== undefined){
+        while (lines[otherwiseLineIndex].charAt(spaces) === ' ') {
+            spaces += 1;
+        }
     }
 
     let spaceStr = '';
